@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 - 멘토링 예약 시스템</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        <span>멘토링 예약</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          예약 현황
+        </a>
+        <a href="admin.html" class="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          관리자
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn-admin" id="btn-logout" style="display:none;" onclick="adminLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          로그아웃
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="header">
+        <h1 class="header-title">관리자</h1>
+      </header>
+
+      <div class="content">
+        <!-- Login Form -->
+        <div class="admin-login-container" id="login-section">
+          <div class="admin-login-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" width="48" height="48" style="margin-bottom: 16px;">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <h2>관리자 로그인</h2>
+            <p>예약 관리를 위해 관리자 비밀번호를 입력해주세요.</p>
+            <form onsubmit="event.preventDefault(); adminLoginSubmit();">
+              <div class="form-group">
+                <input type="password" id="admin-password" placeholder="관리자 비밀번호" style="text-align:center;">
+              </div>
+              <button type="submit" class="btn-primary" style="width:100%; justify-content: center;">
+                로그인
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" style="display:none;">
+          <!-- Instructor Management -->
+          <div class="admin-table-container" style="margin-bottom: 24px;">
+            <div class="admin-toolbar">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <h3 style="font-size:16px; font-weight:700; margin:0;">강사 관리</h3>
+                <span id="instructor-count" style="font-size:13px; color:#94a3b8;"></span>
+              </div>
+              <button class="btn-primary" onclick="openInstructorModal('add')" style="padding:8px 16px; font-size:13px;">
+                + 강사 추가
+              </button>
+            </div>
+            <div id="instructor-list" style="padding: 16px 20px; display: flex; flex-wrap: wrap; gap: 8px;">
+              <!-- Instructor chips rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Bookings Table -->
+          <div class="admin-table-container">
+            <div class="admin-toolbar">
+              <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="18" height="18">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" id="admin-search" placeholder="이름, 주제, 룸, 과정명 검색..." oninput="debounceSearch()">
+              </div>
+              <div>
+                <span id="admin-total" style="font-size:14px; color:#64748b;"></span>
+              </div>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>날짜</th>
+                  <th>강사</th>
+                  <th>룸</th>
+                  <th>시간</th>
+                  <th>예약자</th>
+                  <th>과정명</th>
+                  <th>주제</th>
+                  <th>인원</th>
+                  <th>상태</th>
+                  <th>관리</th>
+                </tr>
+              </thead>
+              <tbody id="admin-tbody">
+                <!-- Rows rendered by JS -->
+              </tbody>
+            </table>
+            <div class="pagination" id="admin-pagination">
+              <!-- Pagination rendered by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-overlay" id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Delete Confirm Modal -->
+  <div class="modal-overlay" id="modal-admin-delete">
+    <div class="modal" style="width: 380px;">
+      <div class="modal-header">
+        <h3>예약 삭제</h3>
+        <button class="modal-close" onclick="closeAdminModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 14px; color: #64748b;">이 예약을 삭제하시겠습니까?</p>
+        <div id="admin-delete-info" style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 13px;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeAdminModal()">취소</button>
+        <button class="btn-danger" id="btn-admin-confirm-delete">삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instructor Add/Edit Modal -->
+  <div class="modal-overlay" id="modal-instructor">
+    <div class="modal" style="width: 380px;">
+      <div class="modal-header">
+        <h3 id="instructor-modal-title">강사 추가</h3>
+        <button class="modal-close" onclick="closeInstructorModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>강사명 <span class="required">*</span></label>
+          <input type="text" id="input-instructor-name" placeholder="강사 이름">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeInstructorModal()">취소</button>
+        <button class="btn-primary" id="btn-instructor-submit">추가</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instructor Delete Confirm Modal -->
+  <div class="modal-overlay" id="modal-instructor-delete">
+    <div class="modal" style="width: 380px;">
+      <div class="modal-header">
+        <h3>강사 삭제</h3>
+        <button class="modal-close" onclick="closeInstructorDeleteModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 14px; color: #64748b;">이 강사를 삭제하시겠습니까?</p>
+        <p id="instructor-delete-name" style="margin-top: 8px; font-weight: 700; font-size: 16px;"></p>
+        <p style="margin-top: 8px; font-size: 12px; color: #ef4444;">* 해당 강사의 기존 예약은 유지되지만, 강사 선택 목록에서 사라집니다.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeInstructorDeleteModal()">취소</button>
+        <button class="btn-danger" id="btn-instructor-confirm-delete">삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
