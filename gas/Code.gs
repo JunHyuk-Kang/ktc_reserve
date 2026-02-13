@@ -61,6 +61,11 @@ function doGet(e) {
   let result;
   try {
     switch (action) {
+      case 'getInit':
+        // 강사 목록 + 예약 데이터를 한 번에 반환 (초기 로딩 최적화)
+        const initBookings = getBookings(params.date, params.instructor || '');
+        result = { instructors: getInstructorList(), ...initBookings };
+        break;
       case 'getInstructors':
         result = { instructors: getInstructorList() };
         break;

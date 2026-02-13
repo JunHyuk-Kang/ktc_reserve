@@ -21,11 +21,28 @@
     document.getElementById('sidebar-title').textContent = CONFIG.subtitle || CONFIG.title;
     document.title = CONFIG.title;
 
-    // Init instructor selector (await so list is ready before loading bookings)
-    await initInstructorSelector();
+    // 캐시된 강사 목록이 있으면 먼저 UI에 반영 (즉시 표시)
+    const cached = API.getCachedInstructors();
+    if (cached && cached.length > 0) {
+      populateInstructorSelect(cached);
+    }
 
-    // Set today's date
-    setDate(new Date());
+    // 통합 API 1회 호출로 강사 목록 + 오늘 예약 동시 로딩
+    currentDate = new Date();
+    document.getElementById('date-picker').value = formatDate(currentDate);
+    showLoading(true);
+    try {
+      const data = await API.getInit(formatDate(currentDate), currentInstructor);
+      populateInstructorSelect(data.instructors);
+      bookings = data.bookings || [];
+      roomBlocks = data.roomBlocks || [];
+      renderGrid();
+    } catch (err) {
+      showToast('데이터를 불러오는데 실패했습니다.', 'error');
+      console.error(err);
+    } finally {
+      showLoading(false);
+    }
 
     // Event listeners
     document.getElementById('btn-prev').addEventListener('click', () => navigateDate(-1));
@@ -76,18 +93,13 @@
   }
 
   // === Instructor Selector ===
-  async function initInstructorSelector() {
+  let instructorSelectBound = false;
+
+  function populateInstructorSelect(instructors) {
     const select = document.getElementById('instructor-select');
-    if (!select) return;
+    if (!select || !instructors || instructors.length === 0) return;
 
-    // API에서 강사 목록 로드, 실패 시 config에서 fallback
-    let instructors;
-    try {
-      instructors = await API.getInstructors();
-    } catch (e) {
-      instructors = CONFIG.instructors || [];
-    }
-
+    const prevValue = currentInstructor;
     select.innerHTML = '';
     instructors.forEach(name => {
       const opt = document.createElement('option');
@@ -96,13 +108,22 @@
       select.appendChild(opt);
     });
 
-    currentInstructor = instructors[0] || '';
+    // 이전 선택값 유지, 없으면 첫 번째 강사
+    if (prevValue && instructors.includes(prevValue)) {
+      currentInstructor = prevValue;
+    } else {
+      currentInstructor = instructors[0] || '';
+    }
     select.value = currentInstructor;
 
-    select.addEventListener('change', (e) => {
-      currentInstructor = e.target.value;
-      loadBookings();
-    });
+    // change 이벤트는 최초 1회만 바인딩
+    if (!instructorSelectBound) {
+      select.addEventListener('change', (e) => {
+        currentInstructor = e.target.value;
+        loadBookings();
+      });
+      instructorSelectBound = true;
+    }
   }
 
   // === Date Management ===

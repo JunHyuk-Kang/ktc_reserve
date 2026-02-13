@@ -3,6 +3,40 @@
  */
 const API = {
   /**
+   * 초기 로딩: 강사 목록 + 예약을 한 번에 조회 (API 1회 호출)
+   */
+  async getInit(date, instructor) {
+    if (!CONFIG.SCRIPT_URL) {
+      return {
+        instructors: this._getDemoInstructors(),
+        ...this._getDemoData(date, instructor),
+      };
+    }
+    const url = `${CONFIG.SCRIPT_URL}?action=getInit&date=${date}&instructor=${encodeURIComponent(instructor || '')}&_t=${Date.now()}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    // 강사 목록 캐시
+    if (data.instructors) {
+      sessionStorage.setItem('cached_instructors', JSON.stringify(data.instructors));
+    }
+    return {
+      instructors: data.instructors || [],
+      bookings: data.bookings || [],
+      roomBlocks: data.roomBlocks || [],
+    };
+  },
+
+  /**
+   * 캐시된 강사 목록 반환 (없으면 null)
+   */
+  getCachedInstructors() {
+    try {
+      return JSON.parse(sessionStorage.getItem('cached_instructors'));
+    } catch { return null; }
+  },
+
+  /**
    * 예약 목록 조회 (날짜별)
    */
   async getBookings(date, instructor) {
