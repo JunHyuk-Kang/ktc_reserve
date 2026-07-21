@@ -3,14 +3,18 @@ const CONFIG = {
   title: '멘토링 예약 시스템',
   subtitle: 'KTC 멘토링',
 
-  // === 강사 목록 (자유롭게 추가/삭제 가능) ===
+  // === 강사 목록 ===
+  // 실제 강사 목록은 Google Sheets의 "강사" 시트에서 관리됩니다.
+  // 아래 값은 데모 모드(SCRIPT_URL 미설정)의 초기값으로만 사용됩니다.
   instructors: [
     '김멘토',
     '이멘토',
     '박멘토',
   ],
 
-  // === 룸 설정 (자유롭게 추가/삭제 가능) ===
+  // === 룸 / 시간 설정 (서버 연결 시 "설정" 시트 값이 우선 적용됨) ===
+  // GAS 연결 상태에서는 Google Sheets "설정" 시트의 rooms / startHour / endHour / slotMinutes
+  // 값이 로딩 시 이 값을 덮어씁니다. 아래는 데모 모드용 + 로딩 전 기본값입니다.
   rooms: [
     '멘토링룸 1',
     '멘토링룸 2',
@@ -23,16 +27,11 @@ const CONFIG = {
     '멘토링룸 9',
     '멘토링룸 10',
   ],
-
-  // === 시간 설정 ===
   startHour: 9,      // 시작 시간 (24시간 형식)
   endHour: 22,       // 종료 시간 (24시간 형식)
   slotMinutes: 30,   // 슬롯 단위 (분)
 
   // === Google Apps Script 배포 URL ===
-  // Google Sheets에서 Apps Script 배포 후 여기에 URL을 입력하세요
+  // 비워두면 데모 모드(localStorage)로 동작합니다
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwPJf02a2iKWKuvBEYLqxAGONEDUeho6MpS0yg1gJPlz4NB7Jowrezj7ySoNQo8wgZJ1A/exec',
-
-  // === 관리자 비밀번호 (GAS 측에서도 검증) ===
-  // 실제 인증은 서버(GAS)에서 처리됩니다
 };

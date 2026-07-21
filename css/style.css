@@ -999,3 +999,439 @@ body {
   color: #fff;
   border-color: #3b82f6;
 }
+
+/* === Toolbar Row (강사 선택 + 뷰 토글) === */
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.toolbar-row .instructor-selector {
+  margin-bottom: 0;
+}
+
+/* === View Toggle === */
+.view-toggle {
+  display: inline-flex;
+  background: #f1f5f9;
+  border: 1px solid #e5e8ed;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.view-toggle button {
+  padding: 7px 18px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.view-toggle button:hover {
+  color: #1a1a2e;
+}
+
+.view-toggle button.active {
+  background: #fff;
+  color: #3b82f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* === 내 예약 버튼 (헤더) === */
+.btn-my-bookings {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid #e5e8ed;
+  background: #fff;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-my-bookings:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+/* === 내 예약 목록 === */
+.my-bookings-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.my-booking-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e5e8ed;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.my-booking-item.past {
+  opacity: 0.55;
+}
+
+.my-booking-info {
+  min-width: 0;
+}
+
+.my-booking-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.my-booking-sub {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.my-booking-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.my-bookings-empty {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+  padding: 16px 0;
+}
+
+.btn-sm:not(.danger) {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.btn-sm:not(.danger):hover {
+  background: #dbeafe;
+}
+
+/* === 관리자 차단 블록 (그리드 표시) === */
+.booking-block.color-unavailable {
+  background: repeating-linear-gradient(
+    -45deg,
+    #f8fafc,
+    #f8fafc 6px,
+    #f1f5f9 6px,
+    #f1f5f9 12px
+  );
+  color: #94a3b8;
+  border: 1px dashed #cbd5e1;
+}
+
+/* === 주간 뷰 === */
+.week-grid .cell-slot {
+  min-height: 42px;
+}
+
+.wk-day-label {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.wk-day-label:hover {
+  background: #f0f7ff;
+}
+
+.wk-day-label.today {
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+.wk-free {
+  cursor: pointer;
+}
+
+.wk-busy {
+  position: relative;
+  cursor: pointer;
+  border-right: none !important;
+}
+
+.wk-busy.color-blue { background: #dbeafe; }
+.wk-busy.color-green { background: #dcfce7; }
+.wk-busy.color-purple { background: #f3e8ff; }
+.wk-busy.color-orange { background: #fff7ed; }
+.wk-busy.wk-multi { background: #e2e8f0; }
+
+.wk-busy.wk-start {
+  border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.wk-label {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-weight: 600;
+  color: #334155;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 300px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* === 스켈레톤 로딩 === */
+.skeleton-grid {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e8ed;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.skeleton-bar {
+  height: 34px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e8edf3 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-header .skeleton-bar {
+  height: 22px;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* === 관리자 통계 === */
+.stats-section {
+  margin-bottom: 24px;
+}
+
+.stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stat-tile {
+  background: #fff;
+  border: 1px solid #e5e8ed;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.1;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+.chart-card {
+  background: #fff;
+  border: 1px solid #e5e8ed;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.chart-card h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-label {
+  width: 76px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #52514e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+
+.bar-track {
+  flex: 1;
+  height: 14px;
+  background: #f1f5f9;
+  border-radius: 0 4px 4px 0;
+}
+
+.bar-fill {
+  height: 100%;
+  min-width: 2px;
+  border-radius: 0 4px 4px 0;
+  transition: width 0.4s ease;
+}
+
+.bar-value {
+  width: 32px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a2e;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-empty {
+  font-size: 13px;
+  color: #94a3b8;
+  padding: 8px 0;
+}
+
+/* === 룸 차단 폼/목록 === */
+.block-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e5e8ed;
+  flex-wrap: wrap;
+}
+
+.block-form input,
+.block-form select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e8ed;
+  font-size: 13px;
+  color: #1a1a2e;
+  outline: none;
+}
+
+.block-form input:focus,
+.block-form select:focus {
+  border-color: #3b82f6;
+}
+
+.block-form #block-reason {
+  flex: 1;
+  min-width: 140px;
+}
+
+.block-form-sep {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.block-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.block-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.block-item:last-child {
+  border-bottom: none;
+}
+
+.block-item.past {
+  opacity: 0.5;
+}
+
+.block-item-info {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.block-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.block-item-reason {
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* === 터치 개선 === */
+.cell-slot {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .toolbar-row {
+    align-items: stretch;
+  }
+
+  .view-toggle {
+    align-self: flex-start;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+}

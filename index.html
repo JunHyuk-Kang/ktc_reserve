@@ -52,14 +52,27 @@
       <!-- Header -->
       <header class="header">
         <h1 class="header-title">예약 현황</h1>
+        <button class="btn-my-bookings" id="btn-my-bookings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          내 예약
+        </button>
       </header>
 
       <!-- Content -->
       <div class="content">
-        <!-- Instructor Selector -->
-        <div class="instructor-selector">
-          <label for="instructor-select">강사 선택</label>
-          <select id="instructor-select"></select>
+        <!-- Toolbar: Instructor + View Toggle -->
+        <div class="toolbar-row">
+          <div class="instructor-selector">
+            <label for="instructor-select">강사 선택</label>
+            <select id="instructor-select"></select>
+          </div>
+          <div class="view-toggle">
+            <button id="btn-view-day" class="active">일간</button>
+            <button id="btn-view-week">주간</button>
+          </div>
         </div>
 
         <!-- Date Nav -->
@@ -141,6 +154,10 @@
               <input type="password" id="input-password" placeholder="수정/삭제용 비밀번호" required minlength="4">
             </div>
           </div>
+          <div class="form-group">
+            <label>이메일 <span style="color:#94a3b8; font-weight:400;">(선택 — 예약 확인 메일 발송)</span></label>
+            <input type="email" id="input-email" placeholder="example@email.com">
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -190,6 +207,30 @@
     </div>
   </div>
 
+  <!-- My Bookings Modal -->
+  <div class="modal-overlay" id="modal-my-bookings">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>내 예약 조회</h3>
+        <button class="modal-close" onclick="closeModal('modal-my-bookings')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="input-my-name" placeholder="예약자 이름">
+          </div>
+          <div class="form-group">
+            <label>비밀번호</label>
+            <input type="password" id="input-my-password" placeholder="예약 시 설정한 비밀번호">
+          </div>
+        </div>
+        <button class="btn-primary" id="btn-my-search" style="width:100%; justify-content:center;">조회</button>
+        <div id="my-bookings-list" class="my-bookings-list"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Loading Overlay -->
   <div class="loading-overlay" id="loading">
     <div class="spinner"></div>
@@ -199,6 +240,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <script src="js/config.js"></script>
+  <script src="js/api-demo.js"></script>
   <script src="js/api.js"></script>
   <script src="js/app.js"></script>
 </body>

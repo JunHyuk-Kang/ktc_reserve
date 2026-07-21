@@ -78,7 +78,48 @@
 
         <!-- Admin Dashboard -->
         <div id="admin-dashboard" style="display:none;">
-          <!-- Instructor Management -->
+
+          <!-- 통계 -->
+          <div class="stats-section">
+            <div class="stat-tiles">
+              <div class="stat-tile">
+                <div class="stat-label">전체 예약</div>
+                <div class="stat-value" id="stat-total">–</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-label">예정 예약</div>
+                <div class="stat-value" id="stat-upcoming">–</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-label">오늘 예약</div>
+                <div class="stat-value" id="stat-today">–</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-label">누적 멘토링 시간</div>
+                <div class="stat-value" id="stat-hours">–</div>
+              </div>
+            </div>
+            <div class="chart-grid">
+              <div class="chart-card">
+                <h4>강사별 예약</h4>
+                <div class="bar-chart" id="chart-instructor"></div>
+              </div>
+              <div class="chart-card">
+                <h4>룸별 예약</h4>
+                <div class="bar-chart" id="chart-room"></div>
+              </div>
+              <div class="chart-card">
+                <h4>요일별 예약</h4>
+                <div class="bar-chart" id="chart-weekday"></div>
+              </div>
+              <div class="chart-card">
+                <h4>시간대별 예약 (시작 시간 기준)</h4>
+                <div class="bar-chart" id="chart-hour"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 강사 관리 -->
           <div class="admin-table-container" style="margin-bottom: 24px;">
             <div class="admin-toolbar">
               <div style="display:flex; align-items:center; gap:12px;">
@@ -94,7 +135,27 @@
             </div>
           </div>
 
-          <!-- Bookings Table -->
+          <!-- 룸 사용 차단 -->
+          <div class="admin-table-container" style="margin-bottom: 24px;">
+            <div class="admin-toolbar">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <h3 style="font-size:16px; font-weight:700; margin:0;">룸 사용 차단</h3>
+                <span style="font-size:13px; color:#94a3b8;">시설 점검 등으로 특정 시간대 예약을 막습니다</span>
+              </div>
+            </div>
+            <div class="block-form">
+              <input type="date" id="block-date">
+              <select id="block-room"></select>
+              <select id="block-start"></select>
+              <span class="block-form-sep">~</span>
+              <select id="block-end"></select>
+              <input type="text" id="block-reason" placeholder="사유 (선택)">
+              <button class="btn-primary" id="btn-add-block" style="padding:8px 16px; font-size:13px;">차단 추가</button>
+            </div>
+            <div id="block-list" class="block-list"></div>
+          </div>
+
+          <!-- 예약 목록 -->
           <div class="admin-table-container">
             <div class="admin-toolbar">
               <div class="search-box">
@@ -104,8 +165,11 @@
                 </svg>
                 <input type="text" id="admin-search" placeholder="이름, 주제, 룸, 과정명 검색..." oninput="debounceSearch()">
               </div>
-              <div>
+              <div style="display:flex; align-items:center; gap:12px;">
                 <span id="admin-total" style="font-size:14px; color:#64748b;"></span>
+                <button class="btn-secondary" id="btn-export-csv" style="padding:8px 14px; font-size:13px;">
+                  CSV 내보내기
+                </button>
               </div>
             </div>
             <table class="admin-table">
@@ -192,7 +256,9 @@
       <div class="modal-body">
         <p style="font-size: 14px; color: #64748b;">이 강사를 삭제하시겠습니까?</p>
         <p id="instructor-delete-name" style="margin-top: 8px; font-weight: 700; font-size: 16px;"></p>
-        <p style="margin-top: 8px; font-size: 12px; color: #ef4444;">* 해당 강사의 기존 예약은 유지되지만, 강사 선택 목록에서 사라집니다.</p>
+        <p id="instructor-delete-warning" style="margin-top: 8px; font-size: 12px; color: #ef4444;">
+          * 해당 강사의 기존 예약은 유지되지만, 강사 선택 목록에서 사라집니다.
+        </p>
       </div>
       <div class="modal-footer">
         <button class="btn-secondary" onclick="closeInstructorDeleteModal()">취소</button>
@@ -202,6 +268,7 @@
   </div>
 
   <script src="js/config.js"></script>
+  <script src="js/api-demo.js"></script>
   <script src="js/api.js"></script>
   <script src="js/admin.js"></script>
 </body>

@@ -1,0 +1,5 @@
+# Claude Code 로컬 설정
+.claude/
+
+# clasp 로컬 설정 (스크립트 ID 포함 — .clasp.json.example 참고)
+.clasp.json
